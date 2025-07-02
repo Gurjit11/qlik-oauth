@@ -10,8 +10,7 @@ function OAuthCallback({ setAuthTokens }) {
       const params = new URLSearchParams(search);
       const code = params.get("code");
       const verifier = sessionStorage.getItem("pkce_verifier");
-
-      const body = new URLSearchParams({
+      const body = JSON.stringify({
         grant_type: "authorization_code",
         client_id: import.meta.env.VITE_QLIK_CLIENT_ID,
         code_verifier: verifier,
@@ -30,7 +29,7 @@ function OAuthCallback({ setAuthTokens }) {
         {
           method: "POST",
           headers: {
-            "Content-Type": "application/x-www-form-urlencoded",
+            "Content-Type": "application/json",
           },
           body,
         }
