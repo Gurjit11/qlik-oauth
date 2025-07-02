@@ -18,7 +18,13 @@ function OAuthCallback({ setAuthTokens }) {
         code,
         redirect_uri: import.meta.env.VITE_REDIRECT_URI,
       });
-
+      console.log({
+        grant_type: "authorization_code",
+        client_id: import.meta.env.VITE_QLIK_CLIENT_ID,
+        code_verifier: verifier,
+        code,
+        redirect_uri: import.meta.env.VITE_REDIRECT_URI,
+      });
       const response = await fetch(
         `${import.meta.env.VITE_TENANT_URI}/oauth/token`,
         {
