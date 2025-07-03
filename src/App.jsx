@@ -15,13 +15,16 @@ function App() {
       });
   }, []);
 
-  if (!user) return <div>Loading...</div>;
-
   return (
     <div>
-      <h1>Welcome, {user.name || user.email}</h1>
-      <pre>{JSON.stringify(user, null, 2)}</pre>
-      <a href="https://qlik-oauth-web-backend.onrender.com/login">Re-login</a>
+      {user ? (
+        <>
+          <h1>Welcome, {user.name || user.email}</h1>
+          <pre>{JSON.stringify(user)}</pre>
+        </>
+      ) : (
+        <a href="https://qlik-oauth-web-backend.onrender.com/login">Re-login</a>
+      )}
     </div>
   );
 }
