@@ -1,49 +1,30 @@
-import React, { useState, useEffect } from "react";
-import {
-  BrowserRouter as Router,
-  Routes,
-  Route,
-  Navigate,
-} from "react-router-dom";
-import Login from "./components/Login";
-import OAuthCallback from "./components/OAuthCallback";
-import Dashboard from "./components/Dashboard";
+import React, { useEffect, useState } from "react";
+import axios from "axios";
 
 function App() {
-  const [tokens, setTokens] = useState(null);
+  const [user, setUser] = useState(null);
 
   useEffect(() => {
-    const stored = sessionStorage.getItem("authTokens");
-    if (stored) {
-      setTokens(JSON.parse(stored));
-    }
+    axios
+      .get("https://qlik-oauth-web-backend.onrender.com/api/user", {
+        withCredentials: true,
+      })
+      .then((res) => setUser(res.data))
+      .catch(
+        () =>
+          (window.location.href =
+            "https://qlik-oauth-web-backend.onrender.com/login")
+      );
   }, []);
 
-  const handleSetTokens = (data) => {
-    sessionStorage.setItem("authTokens", JSON.stringify(data));
-    setTokens(data);
-  };
+  if (!user) return <div>Loading...</div>;
 
   return (
-    <Router>
-      <Routes>
-        <Route path="/login" element={<Login />} />
-        <Route
-          path="/oauth_callback"
-          element={<OAuthCallback setAuthTokens={handleSetTokens} />}
-        />
-        <Route
-          path="/"
-          element={
-            tokens?.accessToken ? (
-              <Dashboard token={tokens.accessToken} />
-            ) : (
-              <Navigate to="/login" replace />
-            )
-          }
-        />
-      </Routes>
-    </Router>
+    <div>
+      <h1>Welcome, {user.name || user.email}</h1>
+      <pre>{JSON.stringify(user, null, 2)}</pre>
+      <a href="https://qlik-oauth-web-backend.onrender.com/login">Re-login</a>
+    </div>
   );
 }
 
