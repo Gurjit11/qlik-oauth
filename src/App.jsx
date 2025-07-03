@@ -9,12 +9,10 @@ function App() {
       .get("https://qlik-oauth-web-backend.onrender.com/api/user", {
         withCredentials: true,
       })
-      .then((res) => setUser(res.data))
-      .catch(
-        () =>
-          (window.location.href =
-            "https://qlik-oauth-web-backend.onrender.com/login")
-      );
+      .then((res) => {
+        console.log(res.data);
+        setUser(res.data);
+      });
   }, []);
 
   if (!user) return <div>Loading...</div>;
