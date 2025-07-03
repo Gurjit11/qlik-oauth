@@ -6,9 +6,13 @@ function App() {
 
   useEffect(() => {
     axios
-      .get("https://qlik-oauth-web-backend.onrender.com/api/user", {
-        withCredentials: true,
-      })
+      .get("https://qlik-oauth-web-backend.onrender.com/api/apps")
+      .then((res) => {
+        console.log(res.data);
+        setUser(res.data);
+      });
+    axios
+      .get("https://qlik-oauth-web-backend.onrender.com/api/user")
       .then((res) => {
         console.log(res.data);
         setUser(res.data);
