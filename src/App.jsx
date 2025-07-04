@@ -68,7 +68,7 @@ function App() {
       <h2>Your Apps</h2>
       <ul>
         {apps.data.map((app) => (
-          <li key={app.id}>{app.attributes.name}</li>
+          <li key={app.resourceId}>{app.name}</li>
         ))}
       </ul>
       <button
